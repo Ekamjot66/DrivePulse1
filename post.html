@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DrivePulse | Post</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📋%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-slate-100 text-slate-900">
+<aside class="hidden md:flex w-60 flex-col bg-slate-900 text-slate-200 p-5 fixed inset-y-0"><div class="text-xl font-extrabold text-white mb-8">Drive<span class="text-indigo-400">Pulse</span></div><nav class="space-y-1 text-sm font-medium"><a href="index.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">🏠 Home</a><a href="debriefs.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">📋 Debriefs</a><a href="pathways.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">🗓️ 7-Day Prep</a><a href="post.html" aria-current="page" class="block px-3 py-2.5 rounded-lg bg-indigo-600 text-white">➕ Post Debrief</a><a href="companies.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">🏢 Companies</a><a href="profile.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">👤 My Profile</a></nav><p class="mt-auto text-xs text-slate-400">Facts over rumors. Every debrief is backed by an offer letter.</p></aside><nav class="md:hidden sticky top-0 z-10 flex overflow-x-auto gap-2 p-2 bg-slate-900 text-xs"><a href="index.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🏠 Home</a><a href="debriefs.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">📋 Debriefs</a><a href="pathways.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🗓️ 7-Day Prep</a><a href="post.html" aria-current="page" class="whitespace-nowrap px-3 py-2 rounded-lg bg-indigo-600 text-white">➕ Post Debrief</a><a href="companies.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🏢 Companies</a><a href="profile.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">👤 My Profile</a></nav>
+<main class="md:ml-60 p-4 md:p-8 max-w-5xl">
+<h1 class="text-2xl font-extrabold mb-1">Post a Debrief</h1><p class="text-sm text-slate-600 mb-4">Takes about 2 minutes. Help the next batch.</p>
+<form id="form" class="bg-white rounded-xl border border-slate-200 p-5 space-y-3 text-sm max-w-xl">
+<input name="co" list="cl" required aria-label="Company" placeholder="Company (pick one or type a new one)" class="w-full border-2 border-slate-300 focus:border-indigo-600 outline-none rounded-lg px-3 py-2"><datalist id="cl"></datalist>
+<input name="role" required aria-label="Role" placeholder="Role, e.g. SDE" class="w-full border-2 border-slate-300 focus:border-indigo-600 outline-none rounded-lg px-3 py-2">
+<select name="diff" aria-label="Difficulty" class="w-full border-2 border-slate-300 rounded-lg px-3 py-2"><option>Easy</option><option selected>Medium</option><option>Hard</option></select>
+<textarea name="r1" required rows="2" aria-label="Round 1" placeholder="Round 1 (OA / Aptitude)" class="w-full border-2 border-slate-300 focus:border-indigo-600 outline-none rounded-lg px-3 py-2"></textarea><textarea name="r2" required rows="2" aria-label="Round 2" placeholder="Round 2 (Technical)" class="w-full border-2 border-slate-300 focus:border-indigo-600 outline-none rounded-lg px-3 py-2"></textarea>
+<textarea name="r3" required rows="2" aria-label="Round 3" placeholder="Round 3 (HR)" class="w-full border-2 border-slate-300 focus:border-indigo-600 outline-none rounded-lg px-3 py-2"></textarea><input name="tip" required aria-label="Key tip" placeholder="Key preparation tip" class="w-full border-2 border-slate-300 focus:border-indigo-600 outline-none rounded-lg px-3 py-2">
+<label class="block font-semibold">Offer letter (optional)<span class="block text-xs font-normal text-slate-500">Real verification is not built yet. Debriefs stay "pending" for now.</span><input id="file" type="file" accept=".pdf,image/*" class="block mt-1 text-xs"></label>
+<button id="btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg py-3">Submit Debrief</button><p id="msg" role="status" class="font-semibold text-emerald-700"></p></form>
+</main>
+<script src="db.js"></script>
+<script>
+const D=DB.data,form=$("form"),F=["co","role","r1","r2","r3","tip"];
+$("cl").innerHTML=D.companies.map(c=>`<option value="${esc(c.name)}">`).join("");
+form.onsubmit=e=>{e.preventDefault();const v=Object.fromEntries(new FormData(form));F.forEach(k=>v[k]=v[k].trim().replace(/\s+/g," "));
+if(F.some(k=>!v[k])){$("msg").className="font-semibold text-red-600";$("msg").textContent="Please fill every field (spaces alone do not count).";return}
+let c=D.companies.find(x=>x.name.toLowerCase()===v.co.toLowerCase());
+if(!c){c={name:v.co,sector:"Not added yet",ctc:"—",cgpa:"—",rounds:"—",diff:v.diff};D.companies.push(c)}
+const file=$("file").files[0];
+D.debriefs.push({id:Date.now(),co:c.name,role:v.role,diff:v.diff,up:0,by:D.user.short,r1:v.r1,r2:v.r2,r3:v.r3,tip:v.tip,ver:false,mine:true,offer:file?file.name:""});
+DB.save();$("btn").disabled=true;$("msg").className="font-semibold text-emerald-700";
+$("msg").textContent=file?"Saved! Your offer letter is queued for verification. Redirecting...":"Saved! Redirecting to your debrief...";
+setTimeout(()=>location.href="debriefs.html?q="+encodeURIComponent(c.name),900)};
+</script></body></html>

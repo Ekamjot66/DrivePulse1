@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DrivePulse | Companies</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📋%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-slate-100 text-slate-900">
+<aside class="hidden md:flex w-60 flex-col bg-slate-900 text-slate-200 p-5 fixed inset-y-0"><div class="text-xl font-extrabold text-white mb-8">Drive<span class="text-indigo-400">Pulse</span></div><nav class="space-y-1 text-sm font-medium"><a href="index.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">🏠 Home</a><a href="debriefs.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">📋 Debriefs</a><a href="pathways.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">🗓️ 7-Day Prep</a><a href="post.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">➕ Post Debrief</a><a href="companies.html" aria-current="page" class="block px-3 py-2.5 rounded-lg bg-indigo-600 text-white">🏢 Companies</a><a href="profile.html"  class="block px-3 py-2.5 rounded-lg hover:bg-slate-800">👤 My Profile</a></nav><p class="mt-auto text-xs text-slate-400">Facts over rumors. Every debrief is backed by an offer letter.</p></aside><nav class="md:hidden sticky top-0 z-10 flex overflow-x-auto gap-2 p-2 bg-slate-900 text-xs"><a href="index.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🏠 Home</a><a href="debriefs.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">📋 Debriefs</a><a href="pathways.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🗓️ 7-Day Prep</a><a href="post.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">➕ Post Debrief</a><a href="companies.html" aria-current="page" class="whitespace-nowrap px-3 py-2 rounded-lg bg-indigo-600 text-white">🏢 Companies</a><a href="profile.html"  class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">👤 My Profile</a></nav>
+<main class="md:ml-60 p-4 md:p-8 max-w-5xl">
+<h1 class="text-2xl font-extrabold mb-4">Companies</h1><div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+</main>
+<script src="db.js"></script>
+<script>
+const D=DB.data;
+$("grid").innerHTML=D.companies.map(c=>{const n=D.debriefs.filter(x=>x.co===c.name).length,hasP=!!D.pathways[c.name];return `<div class="bg-white border border-slate-200 rounded-xl p-5"><h3 class="font-bold">${esc(c.name)}</h3><p class="text-sm text-slate-500">${esc(c.sector)}</p>
+<span class="inline-block mt-2 text-xs font-bold px-2.5 py-1 rounded-full ${DC[c.diff]}">${c.diff}</span>
+<dl class="mt-3 text-sm space-y-1"><div><b>Package:</b> ${esc(c.ctc)}</div><div><b>Min CGPA:</b> ${esc(c.cgpa)}</div><div><b>Rounds:</b> ${esc(c.rounds)}</div><div><b>Debriefs:</b> ${n}</div></dl>
+<div class="mt-3 text-sm font-semibold text-indigo-700"><a class="underline" href="debriefs.html?q=${encodeURIComponent(c.name)}">View debriefs →</a>${hasP?` · <a class="underline" href="pathways.html?c=${encodeURIComponent(c.name)}">Prep</a>`:""}</div></div>`}).join("")
+</script></body></html>
