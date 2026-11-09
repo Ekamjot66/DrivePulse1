@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DrivePulse | Post</title><script src="https://cdn.tailwindcss.com"></script>
+<style>html{filter:grayscale(1)} /* prototype look: delete this line for colour */</style></head>
+<body class="bg-slate-100 text-slate-900">
+<aside class="hidden md:flex w-60 flex-col bg-slate-900 text-slate-200 p-5 fixed inset-y-0"><div class="text-xl font-extrabold text-white mb-8">Drive<span class="text-slate-400">Pulse</span></div><nav class="space-y-1 text-sm font-medium"><a href="index.html" class="block px-3 py-2.5 rounded-lg">🏠 Home</a><a href="debriefs.html" class="block px-3 py-2.5 rounded-lg">📋 Debriefs</a><a href="pathways.html" class="block px-3 py-2.5 rounded-lg">🗓️ 7-Day Prep</a><a href="post.html" class="block px-3 py-2.5 rounded-lg">➕ Post Debrief</a><a href="companies.html" class="block px-3 py-2.5 rounded-lg">🏢 Companies</a><a href="profile.html" class="block px-3 py-2.5 rounded-lg">👤 My Profile</a></nav><p class="mt-auto text-xs text-slate-400">Facts over rumors. Every debrief is backed by an offer letter.</p></aside>
+<nav class="md:hidden flex overflow-x-auto gap-2 p-2 bg-slate-900 text-xs"><a href="index.html" class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🏠 Home</a><a href="debriefs.html" class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">📋 Debriefs</a><a href="pathways.html" class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🗓️ 7-Day Prep</a><a href="post.html" class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">➕ Post Debrief</a><a href="companies.html" class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">🏢 Companies</a><a href="profile.html" class="whitespace-nowrap px-3 py-2 rounded-lg text-slate-300">👤 My Profile</a></nav>
+<main class="md:ml-60 p-4 md:p-8 max-w-5xl">
+<h1 class="text-2xl font-extrabold mb-4">Post a Debrief</h1>
+<form id="f" class="bg-white rounded-xl border p-5 space-y-3 text-sm max-w-xl">
+<input required placeholder="Company" class="w-full border-2 rounded-lg px-3 py-2"><input required placeholder="Role" class="w-full border-2 rounded-lg px-3 py-2">
+<select class="w-full border-2 rounded-lg px-3 py-2"><option>Easy</option><option selected>Medium</option><option>Hard</option></select>
+<textarea required placeholder="Round 1 (OA / Aptitude)" class="w-full border-2 rounded-lg px-3 py-2"></textarea><textarea required placeholder="Round 2 (Technical)" class="w-full border-2 rounded-lg px-3 py-2"></textarea>
+<textarea required placeholder="Round 3 (HR)" class="w-full border-2 rounded-lg px-3 py-2"></textarea><input required placeholder="Key preparation tip" class="w-full border-2 rounded-lg px-3 py-2">
+<!-- TODO: real offer-letter upload + admin check, save to backend, tags, login -->
+<label class="block">Offer letter (optional)<input type="file" class="block mt-1"></label>
+<button class="w-full bg-slate-900 text-white font-bold rounded-lg py-3">Submit</button><p id="m" class="font-semibold"></p></form>
+</main>
+<script>
+document.getElementById("f").onsubmit=e=>{e.preventDefault();document.getElementById("m").textContent="Submitted (demo only, not saved yet). Redirecting...";e.target.reset();setTimeout(()=>location.href="debriefs.html",1200)};
+</script></body></html>
